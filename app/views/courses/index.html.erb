@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Courses</h1>
+
+<br>
+
+<div>
+  <% if current_user.is_instructor %>
+    <div>
+      <%= link_to 'New Course', new_course_path%>
+    </div>
+  <%end%>
+</div>
+
+  <%if !current_user.is_instructor %>
+    <% @courses.each do |course| %>
+      <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%=course.full_code%></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%=course.instructor%></h6>
+        <p class="card-text"><%=h truncate(course.description, :length => 120) %></p>
+        <%= link_to 'Show', course%> 
+        <%= link_to add_course_path(current_user.id, course.id), method: :post do %> 
+          <button type="button" class="btn btn-outline-secondary">Add Course</button>
+        <%end%>
+      </div>
+      </div>
+    <%end%>
+  <%else%>
+    <% @courses.each do |course| %>
+      <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%=course.full_code%></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%=course.instructor.full_name%></h6>
+        <p class="card-text"><%=h truncate(course.description, :length => 120) %></p>
+        <%= link_to 'Show', course%> 
+        <%= link_to 'Edit', edit_course_path(course)%> 
+      </div>
+      <br>
+      </div>
+    <%end%>
+  <%end%>  

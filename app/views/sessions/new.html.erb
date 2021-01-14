@@ -1,0 +1,18 @@
+<h1> Log In </h1>
+
+<% if @message %>
+<div class="alert alert-danger" role="alert">
+  <%=@message %>
+</div>
+<% end %>
+
+<!-- TODO: Replace this with a form -->
+<%= form_with(url: '/login',local: true) do|form| %>
+  <%= form.label :pennkey %>
+  <%= form.text_field :pennkey %>
+  <%= form.label :password %>
+  <%= form.text_field :password %>  
+  <%= form.submit %>
+<% end %>
+
+

@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.first_name %>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Pennkey:</strong>
+  <%= @user.pennkey %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @user.is_instructor ? "Instructor" : "Student" %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
+
+<h3>
+<%= @user.is_instructor ? "Courses Teaching" : "Courses Taking" %>
+</h3>
+
+<%if !current_user.is_instructor%>
+  <div class="card" style="width: 18rem;">
+    <% @user.courses.each do |course| %>
+      <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%=course.full_code%></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%=course.instructor.full_name%></h6>
+        <p class="card-text"><%=h truncate(course.description, :length => 120) %></p>
+        <%= link_to 'Show', course%> 
+        <%= link_to drop_course_path(current_user.id, course.id), method: :delete do %>
+          <button type="button" class="btn btn-outline-secondary">Drop</button>
+        <%end%> 
+      </div>
+    </div>
+  <%end%>
+<%else%>
+  <% @user.courses.each do |course| %>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <%= link_to 'Show', course%> 
+        <%= link_to 'Edit', edit_course_path(course)%> 
+      </div>
+    </div>
+  <%end%>
+<%end%>  
